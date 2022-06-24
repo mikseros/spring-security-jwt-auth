@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mikseros.springjwtauth.jwt.JwtTokenUtil;
 import com.mikseros.springjwtauth.user.User;
 
 @RestController
@@ -20,6 +21,9 @@ public class AuthApi {
 
 	@Autowired
 	AuthenticationManager authManager;
+	
+	@Autowired
+	JwtTokenUtil jwtUtil;
 	
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
@@ -29,7 +33,7 @@ public class AuthApi {
 					);
 			User user = (User) authentication.getPrincipal();
 			
-			String accessToken = "JWT access token here";
+			String accessToken = jwtUtil.generateAccessToken(user);
 			AuthResponse response = new AuthResponse(user.getEmail(), accessToken);
 			
 			return ResponseEntity.ok(response);
