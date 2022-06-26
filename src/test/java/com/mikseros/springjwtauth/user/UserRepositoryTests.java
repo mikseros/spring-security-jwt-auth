@@ -22,10 +22,10 @@ public class UserRepositoryTests {
 	@Test
 	public void testCreateUser() {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String rawPassword = "123456";
+		String rawPassword = "qwerty123";
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		
-		User newUser = new User("xxx@xxx.com", encodedPassword);
+		User newUser = new User("papito@papas.com", encodedPassword);
 		
 		User savedUser = repo.save(newUser);
 		
