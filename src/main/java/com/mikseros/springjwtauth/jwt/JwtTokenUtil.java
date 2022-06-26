@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.mikseros.springjwtauth.user.User;
+
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -54,5 +56,16 @@ public class JwtTokenUtil {
 		}
 		
 		return false;
+	}
+	
+	public String getSubject(String token) {
+		return parseClaims(token).getSubject();
+	}
+	
+	private Claims parseClaims(String token) {
+		return Jwts.parser()
+				.setSigningKey(secretKey)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 }
